@@ -25,6 +25,22 @@ import { fleet, navItems, partners, reveal, services, Logo } from "./shared";
 function Header() {
   const [open, setOpen] = useState(false);
 
+  const handleNavClick = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    href: string,
+  ) => {
+    e.preventDefault();
+    setOpen(false);
+
+    // Espera a que el menú móvil termine de cerrarse antes de hacer scroll
+    setTimeout(() => {
+      const target = document.querySelector(href);
+      if (target) {
+        target.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }, 250);
+  };
+
   return (
     <header className="fixed inset-x-0 top-0 z-50 border-b border-black/5 bg-white text-[#003A7D]">
       <div className="mx-auto flex h-[76px] max-w-7xl items-center justify-between px-5 lg:px-10">
@@ -54,6 +70,7 @@ function Header() {
           {open ? <X /> : <Menu />}
         </button>
       </div>
+
       <AnimatePresence>
         {open && (
           <motion.nav
@@ -67,7 +84,7 @@ function Header() {
                 <a
                   key={item.href}
                   href={item.href}
-                  onClick={() => setOpen(false)}
+                  onClick={(e) => handleNavClick(e, item.href)}
                   className="text-sm font-semibold uppercase tracking-[0.15em] text-[#003A7D]"
                 >
                   {item.label}
@@ -75,7 +92,7 @@ function Header() {
               ))}
               <a
                 href="#contacto"
-                onClick={() => setOpen(false)}
+                onClick={(e) => handleNavClick(e, "#contacto")}
                 className="w-fit bg-[#003A7D] px-5 py-3 text-xs font-bold uppercase tracking-wider text-white"
               >
                 Solicitar información

@@ -73,10 +73,10 @@ export const fleet = [
 ];
 
 export const partners = [
-  { number: "01", name: "ZEMUEVE", detail: "/logos/Salzillo.png" },
-  { number: "02", name: "ALIADO 02", detail: "/logos/BullTrucking.png" },
-  { number: "03", name: "ALIADO 03", detail: "/logos/Espinardo.jpg" },
-  { number: "04", name: "ALIADO 04", detail: "/logos/Hast.png" },
+  { number: "01", name: "Salzillo", detail: "/logos/Salzillo.png" },
+  { number: "02", name: "BullTrucking", detail: "/logos/BullTrucking.png" },
+  { number: "03", name: "Espinardo", detail: "/logos/Espinardo.jpg" },
+  { number: "04", name: "HastFreight", detail: "/logos/Hast.png" },
 ];
 
 export const reveal = {

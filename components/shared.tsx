@@ -56,13 +56,13 @@ export const fleet = [
     type: "Unidad destacada",
     title: "Potencia que avanza contigo",
     detail: "Ficha técnica disponible próximamente",
-    image: "/zemueve-fleet.png",
+    image: "/zemueve-fleet.webp",
   },
   {
     type: "Operación en ruta",
     title: "Diseñada para grandes trayectos",
     detail: "Especificaciones editables",
-    image: "/zemueve-hero.png",
+    image: "/zemueve-hero.webp",
   },
   {
     type: "Nueva unidad",
@@ -75,7 +75,7 @@ export const fleet = [
 export const partners = [
   { number: "01", name: "Salzillo", detail: "/logos/Salzillo.png" },
   { number: "02", name: "BullTrucking", detail: "/logos/BullTrucking.png" },
-  { number: "03", name: "Espinardo", detail: "/logos/Espinardo.jpg" },
+  { number: "03", name: "Espinardo", detail: "/logos/Espinardo.png" },
   { number: "04", name: "HastFreight", detail: "/logos/Hast.png" },
 ];
 

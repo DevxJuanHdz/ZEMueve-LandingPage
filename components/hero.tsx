@@ -37,7 +37,7 @@ function Hero() {
     >
       <motion.div style={{ y: imageY }} className="absolute inset-0">
         <Image
-          src="/zemueve-hero.png"
+          src="/zemueve-hero.webp"
           alt="Camión ZEMUEVE avanzando por carretera"
           fill
           priority

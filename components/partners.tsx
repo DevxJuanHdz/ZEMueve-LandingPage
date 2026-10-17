@@ -42,7 +42,7 @@ function Partners() {
               transition={{ delay: index * 0.1 }}
               className="group flex h-44 items-center justify-center border border-[#003A7D]/15 bg-[#f5f7fa] px-8 py-6 transition-colors duration-300 hover:border-[#0087FF]"
             >
-              <div className="relative h-14 w-full">
+              <div className="relative h-20 w-full">
                 <Image
                   src={partner.detail}
                   alt={`Logo de ${partner.name}`}

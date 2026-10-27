@@ -2,6 +2,7 @@ import { Header } from "@/components/header";
 import { Hero } from "@/components/hero";
 import { Investment } from "@/components/investment";
 import { Services } from "@/components/services";
+import { Insurance } from "@/components/insurance"
 import { About } from "@/components/about";
 import { Fleet } from "@/components/fleet";
 import { Partners } from "@/components/partners";
@@ -17,6 +18,7 @@ export default function ZemueveLanding() {
         <Hero />
         <Investment />
         <Services />
+        <Insurance />
         <About />
         <Fleet />
         <Contact />

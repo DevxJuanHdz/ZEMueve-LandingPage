@@ -69,9 +69,6 @@ function Services() {
                 className="group border-b border-[#003A7D]/15 py-8 lg:border-b-0 lg:border-r lg:px-8 lg:py-10 lg:first:pl-0 lg:last:border-r-0"
               >
                 <div className="flex items-start justify-between">
-                  <span className="font-mono text-xs text-[#0087FF]">
-                    {service.number}
-                  </span>
                   <Icon className="text-[#003A7D] transition-colors group-hover:text-[#0087FF]" />
                 </div>
                 <h3 className="mt-16 text-2xl font-bold tracking-[-0.04em] text-[#003A7D]">

@@ -67,12 +67,12 @@ function About() {
             <br />
             <span className="text-[#0087FF]">en equipo.</span>
           </h2>
-          <p className="mt-8 max-w-lg text-base leading-7 text-[#484949]">
+          <p className="mt-8 max-w-lg text-base leading-7 text-[#484949] text-justify">
             Somos una empresa enfocada en el transporte y la logística. Creamos
             caminos más claros para que las operaciones y las oportunidades
             puedan seguir avanzando.
           </p>
-          <p className="mt-4 max-w-lg text-base leading-7 text-[#484949]">
+          <p className="mt-4 max-w-lg text-base leading-7 text-[#484949] text-justify">
             Este espacio está listo para contar la historia, experiencia y
             diferenciadores de ZEMUEVE con información confirmada por la
             empresa.

@@ -1,34 +1,69 @@
 "use client";
 
-import Image from "next/image";
-import { useState } from "react";
-import {
-  AnimatePresence,
-  motion,
-  useScroll,
-  useTransform,
-} from "framer-motion";
-import {
-  ArrowDownRight,
-  ArrowRight,
-  BadgeDollarSign,
-  Check,
-  ChevronLeft,
-  ChevronRight,
-  Clock3,
-  DoorOpen,
-  Mail,
-  MapPin,
-  Menu,
-  Phone,
-  ShieldCheck,
-  Truck,
-  X,
-} from "lucide-react";
-import { fleet, navItems, partners, reveal, services, Logo } from "./shared";
+import { useState, type FormEvent } from "react";
+import { ArrowRight, Clock3, Mail, MapPin, Phone } from "lucide-react";
+
+type Feedback = {
+  type: "success" | "warning" | "error";
+  message: string;
+} | null;
 
 function Contact() {
-  const [sent, setSent] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [feedback, setFeedback] = useState<Feedback>(null);
+
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (loading) return;
+    setLoading(true);
+    setFeedback(null);
+    const form = event.currentTarget;
+    const values = new FormData(form);
+    const payload = Object.fromEntries(
+      ["name", "company", "email", "phone", "reason", "message"].map((key) => [
+        key,
+        String(values.get(key) || "").trim(),
+      ]),
+    );
+
+    try {
+      const response = await fetch("/api/contacto", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const result: {
+        message?: string;
+        received?: boolean;
+        confirmationSent?: boolean;
+      } = await response.json();
+      if (!response.ok)
+        throw new Error(
+          result.message || "No fue posible enviar tu solicitud.",
+        );
+      setFeedback({
+        type: result.confirmationSent === false ? "warning" : "success",
+        message: result.message || "Solicitud recibida correctamente.",
+      });
+      if (result.received) form.reset();
+    } catch (error) {
+      setFeedback({
+        type: "error",
+        message:
+          error instanceof Error
+            ? error.message
+            : "Ocurrió un error inesperado.",
+      });
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  const fieldClass =
+    "mt-2 w-full border-b border-[#003A7D]/25 bg-transparent px-0 py-3 text-sm font-normal outline-none transition-colors focus:border-[#0087FF]";
+  const labelClass =
+    "text-xs font-bold uppercase tracking-wider text-[#003A7D]";
+
   return (
     <section
       id="contacto"
@@ -50,104 +85,122 @@ function Contact() {
           </p>
           <div className="mt-12 flex flex-col gap-6 border-t border-[#003A7D]/15 pt-7 text-sm text-[#484949]">
             <p className="flex items-center gap-4">
-              <Mail className="text-[#0087FF]" />{" "}
-              <span>ej.ventas@zemueve.com.mx</span>
+              <Mail className="text-[#0087FF]" />
+              <span>direccion@zemueve.com.mx</span>
             </p>
             <p className="flex items-center gap-4">
-              <Phone className="text-[#0087FF]" /> <span>477 564 7671</span>
+              <Phone className="text-[#0087FF]" />
+              <span>477 239 8706</span>
             </p>
             <p className="flex items-center gap-4">
-              <MapPin className="text-[#0087FF]" />{" "}
+              <MapPin className="text-[#0087FF]" />
               <span>León, Guanajuato, Mexico, 37669</span>
             </p>
             <p className="flex items-center gap-4">
-              <Clock3 className="text-[#0087FF]" />{" "}
-              <span>Lunes a Viernes: 8:00 a 18:00 <br />Sábado: 9:00 a 14:00</span>
+              <Clock3 className="text-[#0087FF]" />
+              <span>
+                Lunes a Viernes: 8:00 a 18:00 <br />
+                Sábado: 9:00 a 14:00
+              </span>
             </p>
           </div>
         </div>
         <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            setSent(true);
-          }}
+          onSubmit={handleSubmit}
           className="bg-white p-7 shadow-[0_20px_60px_rgba(0,58,125,0.08)] sm:p-10"
         >
           <div className="grid gap-6 sm:grid-cols-2">
-            <label className="text-xs font-bold uppercase tracking-wider text-[#003A7D]">
+            <label className={labelClass}>
               Nombre completo
               <input
                 required
+                maxLength={120}
                 name="name"
-                className="mt-2 w-full border-b border-[#003A7D]/25 bg-transparent px-0 py-3 text-sm font-normal outline-none transition-colors focus:border-[#0087FF]"
+                autoComplete="name"
+                className={fieldClass}
                 placeholder="Tu nombre"
               />
             </label>
-            <label className="text-xs font-bold uppercase tracking-wider text-[#003A7D]">
+            <label className={labelClass}>
               Empresa{" "}
               <span className="font-normal text-[#484949]">(opcional)</span>
               <input
+                maxLength={150}
                 name="company"
-                className="mt-2 w-full border-b border-[#003A7D]/25 bg-transparent px-0 py-3 text-sm font-normal outline-none transition-colors focus:border-[#0087FF]"
+                className={fieldClass}
                 placeholder="Tu empresa"
               />
             </label>
-            <label className="text-xs font-bold uppercase tracking-wider text-[#003A7D]">
+            <label className={labelClass}>
               Correo electrónico
               <input
                 required
                 type="email"
+                maxLength={254}
                 name="email"
-                className="mt-2 w-full border-b border-[#003A7D]/25 bg-transparent px-0 py-3 text-sm font-normal outline-none transition-colors focus:border-[#0087FF]"
+                autoComplete="email"
+                className={fieldClass}
                 placeholder="tu@correo.com"
               />
             </label>
-            <label className="text-xs font-bold uppercase tracking-wider text-[#003A7D]">
+            <label className={labelClass}>
               Teléfono
               <input
+                type="tel"
+                maxLength={40}
                 name="phone"
-                className="mt-2 w-full border-b border-[#003A7D]/25 bg-transparent px-0 py-3 text-sm font-normal outline-none transition-colors focus:border-[#0087FF]"
+                autoComplete="tel"
+                className={fieldClass}
                 placeholder="Tu teléfono"
               />
             </label>
-            <label className="text-xs font-bold uppercase tracking-wider text-[#003A7D] sm:col-span-2">
+            <label className={`${labelClass} sm:col-span-2`}>
               Motivo de contacto
               <select
                 name="reason"
+                required
                 className="mt-2 w-full border-b border-[#003A7D]/25 bg-white py-3 text-sm font-normal outline-none focus:border-[#0087FF]"
               >
-                <option>Quiero conocer los servicios</option>
-                <option>Me interesan las opciones de inversión</option>
-                <option>Otro motivo</option>
+                <option value="Quiero conocer los servicios">
+                  Quiero conocer los servicios
+                </option>
+                <option value="Me interesan las opciones de inversión">
+                  Me interesan las opciones de inversión
+                </option>
+                <option value="Otro motivo">Otro motivo</option>
               </select>
             </label>
-            <label className="text-xs font-bold uppercase tracking-wider text-[#003A7D] sm:col-span-2">
+            <label className={`${labelClass} sm:col-span-2`}>
               Mensaje
               <textarea
                 required
+                maxLength={5000}
                 name="message"
                 rows={4}
-                className="mt-2 w-full resize-none border-b border-[#003A7D]/25 bg-transparent px-0 py-3 text-sm font-normal outline-none transition-colors focus:border-[#0087FF]"
+                className={`${fieldClass} resize-none`}
                 placeholder="Cuéntanos cómo podemos ayudarte"
               />
             </label>
           </div>
           <button
             type="submit"
-            className="mt-9 inline-flex items-center gap-4 bg-[#0087FF] px-6 py-4 text-xs font-bold uppercase tracking-[0.14em] text-white transition-colors hover:bg-[#003A7D]"
+            disabled={loading}
+            className="mt-9 inline-flex items-center gap-4 bg-[#0087FF] px-6 py-4 text-xs font-bold uppercase tracking-[0.14em] text-white transition-colors hover:bg-[#003A7D] disabled:cursor-not-allowed disabled:opacity-60"
           >
-            {sent ? "Solicitud preparada" : "Enviar solicitud"}{" "}
+            {loading ? "Enviando..." : "Enviar solicitud"}
             <ArrowRight size={16} />
           </button>
-          {sent && (
-            <p role="status" className="mt-4 text-xs text-[#0087FF]">
-              Gracias. La integración de envío está pendiente de conectar.
+          {feedback && (
+            <p
+              role="status"
+              aria-live="polite"
+              className={`mt-4 text-sm ${feedback.type === "error" ? "text-red-600" : feedback.type === "warning" ? "text-amber-700" : "text-[#0087FF]"}`}
+            >
+              {feedback.message}
             </p>
           )}
           <p className="mt-5 text-[10px] leading-5 text-[#484949]">
-            Este formulario es una interfaz preparada. La integración de
-            recepción de mensajes se conectará cuando ZEMUEVE defina su canal
-            oficial.
+            Usaremos tus datos únicamente para atender tu solicitud de contacto.
           </p>
         </form>
       </div>

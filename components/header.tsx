@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   ArrowDownRight,
@@ -25,11 +25,21 @@ import { fleet, navItems, partners, reveal, services, Logo } from "./shared";
 function Header() {
   const [open, setOpen] = useState(false);
 
-  const handleNavClick = (
-    e: React.MouseEvent<HTMLAnchorElement>,
-    href: string,
-  ) => {
-    e.preventDefault();
+  useEffect(() => {
+    const selector = window.location.hash;
+    if (!selector) return;
+
+    window.requestAnimationFrame(() => {
+      document.querySelector(selector)?.scrollIntoView({ block: "start" });
+      window.history.replaceState(
+        null,
+        "",
+        `${window.location.pathname}${window.location.search}`,
+      );
+    });
+  }, []);
+
+  const handleNavClick = (href: string) => {
     setOpen(false);
 
     // Espera a que el menú móvil termine de cerrarse antes de hacer scroll
@@ -47,21 +57,23 @@ function Header() {
         <Logo />
         <nav className="hidden items-center gap-8 md:flex">
           {navItems.map((item) => (
-            <a
+            <button
+              type="button"
               key={item.href}
               className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#003A7D] transition-colors hover:text-[#00E6FF]"
-              href={item.href}
+              onClick={() => handleNavClick(item.href)}
             >
               {item.label}
-            </a>
+            </button>
           ))}
         </nav>
-        <a
-          href="#contacto"
+        <button
+          type="button"
+          onClick={() => handleNavClick("#contacto")}
           className="hidden border border-[#003A7D] px-5 py-3 text-[10px] font-bold uppercase tracking-[0.16em] text-[#003A7D] transition-colors hover:bg-[#003A7D] hover:text-white md:block"
         >
           Solicitar información
-        </a>
+        </button>
         <button
           className="text-[#003A7D] md:hidden"
           aria-label={open ? "Cerrar menú" : "Abrir menú"}
@@ -81,22 +93,22 @@ function Header() {
           >
             <div className="flex flex-col gap-5 px-5 py-6">
               {navItems.map((item) => (
-                <a
+                <button
+                  type="button"
                   key={item.href}
-                  href={item.href}
-                  onClick={(e) => handleNavClick(e, item.href)}
+                  onClick={() => handleNavClick(item.href)}
                   className="text-sm font-semibold uppercase tracking-[0.15em] text-[#003A7D]"
                 >
                   {item.label}
-                </a>
+                </button>
               ))}
-              <a
-                href="#contacto"
-                onClick={(e) => handleNavClick(e, "#contacto")}
+              <button
+                type="button"
+                onClick={() => handleNavClick("#contacto")}
                 className="w-fit bg-[#003A7D] px-5 py-3 text-xs font-bold uppercase tracking-wider text-white"
               >
                 Solicitar información
-              </a>
+              </button>
             </div>
           </motion.nav>
         )}

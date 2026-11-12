@@ -1,4 +1,3 @@
-import { Header } from "@/components/header";
 import { Hero } from "@/components/hero";
 import { Investment } from "@/components/investment";
 import { Services } from "@/components/services";
@@ -9,12 +8,18 @@ import { Fleet } from "@/components/fleet";
 import { Partners } from "@/components/partners";
 import { Location } from "@/components/location";
 import { Contact } from "@/components/contact";
-import { Footer } from "@/components/footer";
+import { buildMetadata } from "@/app/libs/seo";
+
+export const metadata = buildMetadata({
+  title: "ZEMUEVE | Transporte de Carga Terrestre y Servicios Logísticos",
+  description: "ZEMUEVE ofrece transporte de carga terrestre y servicios logísticos confiables y eficientes en México.",
+  url: process.env.NEXT_PUBLIC_SITE_URL || "https://www.zemueve.com.mx",
+  image: "/zemueve-hero.webp",
+});
 
 export default function ZemueveLanding() {
   return (
     <>
-      <Header />
       <main>
         <Hero />
         <Investment />
@@ -27,7 +32,6 @@ export default function ZemueveLanding() {
         <Partners />
         <Location />
       </main>
-      <Footer />
     </>
   );
 }

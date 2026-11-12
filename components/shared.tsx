@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import Link from "next/link";
 import {
   ArrowDownRight,
   ArrowRight,
@@ -90,8 +91,8 @@ export const reveal = {
 
 export function Logo({ light = false }: { light?: boolean }) {
   return (
-    <a
-      href="#inicio"
+    <Link
+      href="/"
       className="flex items-center gap-2.5"
       aria-label="ZEMUEVE, inicio"
     >
@@ -100,6 +101,6 @@ export function Logo({ light = false }: { light?: boolean }) {
         alt="ZEMUEVE"
         className="h-10 w-auto object-contain"
       />
-    </a>
+    </Link>
   );
 }

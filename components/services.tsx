@@ -28,6 +28,13 @@ import {
 import { fleet, navItems, partners, reveal, services, Logo } from "./shared";
 
 function Services() {
+  const scrollToContact = () => {
+    document.querySelector("#contacto")?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+  };
+
   return (
     <section
       id="servicios"
@@ -77,12 +84,13 @@ function Services() {
                 <p className="mt-4 max-w-xs text-sm leading-6 text-[#484949]">
                   {service.text}
                 </p>
-                <a
-                  href="#contacto"
+                <button
+                  type="button"
+                  onClick={scrollToContact}
                   className="mt-8 inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.18em] text-[#0087FF]"
                 >
                   Saber más <ArrowRight size={14} />
-                </a>
+                </button>
               </motion.article>
             );
           })}

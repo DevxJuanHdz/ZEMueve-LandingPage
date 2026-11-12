@@ -30,6 +30,13 @@ import { fleet, navItems, partners, reveal, services, Logo } from "./shared";
 function Hero() {
   const { scrollY } = useScroll();
   const imageY = useTransform(scrollY, [0, 500], [0, 80]);
+  const scrollToSection = (selector: string) => {
+    document.querySelector(selector)?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+  };
+
   return (
     <section
       id="inicio"
@@ -89,19 +96,21 @@ function Hero() {
             transition={{ delay: 0.36 }}
             className="mt-9 flex flex-wrap gap-3"
           >
-            <a
-              href="#contacto"
+            <button
+              type="button"
+              onClick={() => scrollToSection("#contacto")}
               className="group inline-flex items-center gap-5 bg-[#0087FF] px-6 py-4 text-xs font-bold uppercase tracking-[0.14em] transition-colors hover:bg-[#00E6FF] hover:text-[#003A7D]"
             >
               Hablemos{" "}
               <ArrowRight className="transition-transform group-hover:translate-x-1" />
-            </a>
-            <a
-              href="#servicios"
+            </button>
+            <button
+              type="button"
+              onClick={() => scrollToSection("#servicios")}
               className="inline-flex items-center gap-3 border border-white/35 px-6 py-4 text-xs font-bold uppercase tracking-[0.14em] transition-colors hover:border-white"
             >
               Explorar servicios
-            </a>
+            </button>
           </motion.div>
         </div>
         <div className="mt-20 flex items-center gap-5 text-[10px] uppercase tracking-[0.2em] text-white/55">
